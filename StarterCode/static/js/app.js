@@ -11,8 +11,9 @@ d3.json(url).then(function(data) {
 
 // Initializing dashboard
 function init() {
-    // 
-    let dropdownmenu = d3.select('#selDataset');
+    // The # symbols is used to indicate that the selector is an ID and the selDataset is specific ID that is
+    // being selected
+    let dropdownMenu = d3.select("#selDataset");
     // Loading data using d3 from the JSON file located at the specified URL
     d3.json(url).then((data) => {
         // Extracting the array of names from the dataset (code above, d3 is parsing the url data to data)
@@ -23,9 +24,9 @@ function init() {
         // associating a specific value with each option in a drop down menu.
         names.forEach((id) => {
             console.log(id);
-            dropdownmenu.append('option')
+            dropdownMenu.append("option")
             .text(id)
-            .property('value',id);
+            .property("value",id);
         });
 
         let sample_one = names[0];
@@ -35,19 +36,20 @@ function init() {
         buildBarChart(sample_one);
         buildBubbleChart(sample_one);
         buildGaugeChart(sample_one);
+
     });
 };
 
-function buildMetadata(sameple) {
+function buildMetadata(sample) {
     d3.json(url).then((data) => {
         let metadata = data.metadata;
-        let value = metadata.filter(result => result.id == sample)
+        let value = metadata.filter(result => result.id == sample);
         console.log(value)
         let valueData = value[0];
-        d3.select('#sample-metadata').html("");
+        d3.select("#sample-metadata").html("");
         Object.entries(valueData).forEach(([key,value]) => {
             console.log(key,value);
-            d3.select('#sample-metadata').append('h5').text=(`${key}: ${value}`);
+            d3.select("#sample-metadata").append("h5").text(`${key}: ${value}`);
         });
     });
 };
@@ -91,27 +93,27 @@ function buildBubbleChart(sample) {
         let otu_labels = valueData.otu_labels;
         let sample_values = valueData.sample_values;
 
-    console.log(otu_ids,otu_labels,sample_values);
+        console.log(otu_ids,otu_labels,sample_values);
     
-    let trace1 = {
-        x: otu_ids,
-        y: sample_values,
-        text: otu_labels,
-        mode: "markers",
-        marker: {
-            size: sample_values,
-            color:otu_ids,
-            colorscale: "Earth"
-        }
-    };
+        let trace1 = {
+            x: otu_ids,
+            y: sample_values,
+            text: otu_labels,
+            mode: "markers",
+            marker: {
+                size: sample_values,
+                color: otu_ids,
+                colorscale: "Earth"
+            }
+        };
     
-    let layout = {
-        title: "Bacteria Per Sample",
-        hovermode: "closest",
-        xaxis: {title: "OTU ID"},
-    };
-
-    Plotly.newplot("bubble", [trace1],layout)
+        let layout = {
+            title: "Bacteria Per Sample",
+            hovermode: "closest",
+            xaxis: {title: "OTU ID"},
+        };
+        // Did not capitilize P in newplot which caused my chart to not appear. - FIXED
+        Plotly.newPlot("bubble", [trace1], layout)
     });
 };
 
@@ -124,3 +126,5 @@ function optionChanged(value) {
 };
 
 init();
+
+

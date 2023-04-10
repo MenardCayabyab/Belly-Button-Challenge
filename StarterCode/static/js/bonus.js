@@ -17,7 +17,8 @@ function init() {
 
 function buildGaugeChart(sample) {
     d3.json(url).then((data) => {
-        let metadata = metadata.filter(result => result.id == sample);
+        let metadata = data.metadata;
+        let value = metadata.filter(result => result.id == sample);
         console.log(value)
         let valueData = value[0];
         let washFrequency = Object.values(valueData)[6];
@@ -25,7 +26,7 @@ function buildGaugeChart(sample) {
             value: washFrequency,
             domain: {x:[0,1], y:[0,1]},
             title: {
-                text: "<b>Weekly Belly Button Washing Frequency Per Subject</b>",
+                text: "<b>Weekly Belly Button Washing</b><br>Frequency Per Subject",
                 font: {color: "black", size: 16}
             },
             type: "indicator",

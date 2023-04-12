@@ -1,20 +1,30 @@
+// Getting our data from the URL (posted in the other code) and using d3 to extract information.
 d3.json(url).then(function(data) {
     console.log(data);
 });
 
+// Calling init to initialize our dashboard when the user goes to our HTML.
 function init() {
-    let dropdownMenu = d3.select("#selDataset");
+    // Using d3 to select the dropdown menu and using d3 again to get sample names and populate the drop
+    // down selector with the extracted data.
+    let dropdownMenu = d3.select("#selDataset")
     d3.json(url).then((data) => {
+        // Setting our variables for the sample names
         let names = data.names;
+        // Then adding samples to the dropdown menu
         names.forEach((id) => {
             console.log(id);
         });
+        // Getting first item from the list
         let sample_one = names[0];
         console.log(sample_one);
+
+        // Build our guage chart
         buildGaugeChart(sample_one);
     });
 };
 
+// Similar concept as building our previous charts from the main code.
 function buildGaugeChart(sample) {
     d3.json(url).then((data) => {
         let metadata = data.metadata;
@@ -48,12 +58,13 @@ function buildGaugeChart(sample) {
                 ]
             }
         };
-
+        // Setting our layout
         let layout = {
             width: 350,
             height: 350,
             margin: {t:0, b:0}
         };
+        //plaot our guage chart using plotly
         Plotly.newPlot("gauge",[trace2],layout)
     });
 };
